@@ -34,3 +34,11 @@ class DataIngestionConfig:
             return self.__dict__
         except Exception as e:
             raise InsuranceException(e, sys)
+        
+
+class DataValidationConfig:
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig) -> None:
+        self.data_validation_dir = os.path.join(training_pipeline_config.artifact_dir, "data_validation")
+        self.report_file_path = os.path.join(self.data_validation_dir, "report.yml") # Report file can be created on json, yaml or csv
+        self.missing_threshold:float = 0.2
+        
