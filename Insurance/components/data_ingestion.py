@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 
 
 class DataIngestion: # data will be divided to Train, Test and Validate.
-    def __init__(self, data_ingestion_config: config_entity.DataIngestionConfig) -> None:
+    def __init__(self, data_ingestion_config: config_entity.DataIngestionConfig):
         try:
             self.data_ingestion_config = data_ingestion_config
         except Exception as e:
@@ -20,9 +20,11 @@ class DataIngestion: # data will be divided to Train, Test and Validate.
     def initiate_data_ingestion(self)-> artifact_entity.DataIngestionArtifact:
         try:
             logging.info("Export collection data as pandas dataframe")
+            #Exporting collection data as pandas dataframe
             df:pd.DataFrame= utils.get_collection_as_dataframe(
                 database_name= self.data_ingestion_config.database_name,
                 collection_name=self.data_ingestion_config.collection_name)
+            
             logging.info("Save data in future store")
 
             # Replace NA value with NAN.
@@ -35,14 +37,14 @@ class DataIngestion: # data will be divided to Train, Test and Validate.
 
             logging.info("Save df to feature store folder") 
             # Save df to feature store folder   
-            df.to_csv(path_or_buf=self.data_ingestion_config.feature_store_file_path, index=False, header=  True)
+            df.to_csv(path_or_buf=self.data_ingestion_config.feature_store_file_path, index=False, header=True)
             
             logging.info("Spliting our data into train and test set.")
             train_df, test_df = train_test_split(df, test_size=self.data_ingestion_config.test_size, random_state=1)
 
             logging.info("Create dataset directory folder if not exists")    
-            dataset_df = os.path.dirname(self.data_ingestion_config.train_file_path)
-            os.makedirs(dataset_df, exist_ok=True)
+            dataset_dir = os.path.dirname(self.data_ingestion_config.train_file_path)
+            os.makedirs(dataset_dir, exist_ok=True)
 
             logging.info("Save dataset to feature store folder.")
             train_df.to_csv(path_or_buf = self.data_ingestion_config.train_file_path, index = False,  header = True)
@@ -52,9 +54,10 @@ class DataIngestion: # data will be divided to Train, Test and Validate.
             data_ingestion_artifact = artifact_entity.DataIngestionArtifact (
                 feature_store_file_path = self.data_ingestion_config.feature_store_file_path,
                 train_file_path = self.data_ingestion_config.train_file_path,
-                trst_file_path = self.data_ingestion_config.test_file_path
+                test_file_path = self.data_ingestion_config.test_file_path
                 )
-
+            logging.info(f"Data ingestion artifact: {data_ingestion_artifact}")
+            return data_ingestion_artifact
 
         except Exception as e:
             raise InsuranceException(e, sys)

@@ -8,8 +8,12 @@ class InsuranceException(Exception):
         self.error_message = InsuranceException.error_message_detail(error_message, error_detail=error_detail)
     
 
-
+    @staticmethod
     def error_message_detail(error:Exception, error_detail:sys)->str:
+        """
+        error: Exception object raise from module
+        error_detail: is sys module contains detail information about system execution information.
+        """
         _, _, exc_tb=error_detail.exc_info()
         line_number = exc_tb.tb_frame.f_lineno
 
