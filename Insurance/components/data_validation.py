@@ -61,7 +61,7 @@ class DataValidation:
             missing_columns = []
             for base_column in base_columns:
                 if base_column not in current_columns:
-                    logging.info(f" Column: [{base} is not available.]")
+                    #logging.info(f" Column: [{base} is not available.]")
                     missing_columns.append(base_column)
                 
                 if len(missing_columns)>0:
@@ -81,7 +81,7 @@ class DataValidation:
             currnet_columns = current_df.columns
 
             for base_column in base_columns:
-                base_data, current_data = base_df[base_column],current_df[base_columns]
+                base_data, current_data = base_df[base_column],current_df[base_column]
 
                 same_distribution = ks_2samp(base_data, current_data)
 
@@ -141,11 +141,11 @@ class DataValidation:
                 self.data_drift(base_df=base_df,current_df=test_df,report_key_name="data_drift_within_test_dataset")
 
             #Write your report
-            logging.info("Write reprt in yaml file")
+            logging.info("Write report in yaml file")
             utils.write_yaml_file(file_path=self.data_validation_config.report_file_path,
                                   data = self.validation_error)
             
-            data_validation_artifact = artifact_entity.DataIngestionArtifact(report_file_path = self.data_validation_config.report_file_path,)
+            data_validation_artifact = artifact_entity.DataValidationArtifact(report_file_path = self.data_validation_config.report_file_path,)
             logging.info(f"Data validation artifact: {data_validation_artifact}")
             return data_validation_artifact
 
