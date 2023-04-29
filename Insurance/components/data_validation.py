@@ -15,6 +15,9 @@ from Insurance import utils
 from Insurance.config import TARGET_COLUMN
 import numpy as np
 from scipy.stats import ks_2samp
+from apache_beam import pvalue
+from scipy import stats
+
 
 
 
