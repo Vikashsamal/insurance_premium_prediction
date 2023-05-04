@@ -1,11 +1,9 @@
 import os
 import sys
 import yaml
-
 import dill
 import numpy as np
 import pandas as pd
-
 from Insurance.config import mongo_client
 from Insurance.exception import InsuranceException
 from Insurance.logger import logging
@@ -76,12 +74,21 @@ def load_object(file_path: str, ) -> object:
         raise InsuranceException(e, sys) from e
 
 
-def save_numpy_array_data(file_path: str, array: np.array):
+def save_numpy_array_data(file_path: str, array: np.array): # type: ignore
     try:
         dir_path = os.path.dirname(file_path)
         os.makedirs(dir_path, exist_ok=True)
         with open(file_path, 'wb') as file_obj:
             np.save(file_obj, array)
 
+    except Exception as e:
+        raise InsuranceException(e, sys) from e
+    
+# Model Trainer
+
+def load_numpy_array_data(file_path:str)->np.array: # type: ignore
+    try:
+        with open(file_path, "rb") as file_obj:
+            return np.load(file_obj)  
     except Exception as e:
         raise InsuranceException(e, sys) from e
