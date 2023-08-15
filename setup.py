@@ -12,7 +12,7 @@ def get_requirements() -> List[str]:
 
     if REMOVE_PACKAGE in requirement_list:
         requirement_list.remove(REMOVE_PACKAGE)
-    return requirement_list
+    return requirement_list 
 
 
 setup(name='Insurance',
