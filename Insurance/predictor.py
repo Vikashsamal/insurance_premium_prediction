@@ -1,8 +1,8 @@
 import os, sys
+from glob import glob
 from typing import Optional
 from Insurance.exception import InsuranceException
-from Insurance.entity.config_entity import MODEL_FILE_NAME, TRANSFORMER_OBJECT_FILE_NAME, \
-    TARGET_ENCODER_OBJECT_FILE_NAME
+from Insurance.entity.config_entity import MODEL_FILE_NAME, TRANSFORMER_OBJECT_FILE_NAME,TARGET_ENCODER_OBJECT_FILE_NAME
 
 
 # Creating folder save new model for new data.
@@ -12,25 +12,25 @@ from Insurance.entity.config_entity import MODEL_FILE_NAME, TRANSFORMER_OBJECT_F
 # save_model(folder) -> 0->1->2->3
 
 class ModelResolver:
-    def __init__(self, model_registry: str = "saved_model",
-                 transfomer_dir_name="transfomer",
+    def __init__(self, model_registry: str = "saved_models",
+                 transformer_dir_name="transformer",
                  target_encoder_dir_name='target_encoder',
                  model_dir_name="model"):
 
         self.model_registry = model_registry
         os.makedirs(self.model_registry, exist_ok=True)
-        self.transfomer_dir_name = transfomer_dir_name
+        self.transformer_dir_name = transformer_dir_name
         self.target_encoder_dir_name = target_encoder_dir_name
         self.model_dir_name = model_dir_name
 
     def get_latest_dir_path(self) -> Optional[str]:
         try:
-            dir_name = os.listdir(self.model_registry)
-            if len(dir_name) == 0:
+            dir_names = os.listdir(self.model_registry)
+            if len(dir_names) == 0:
                 return None
 
-            dir_name = list(map(int, dir_name))
-            latest_dir_name = max(dir_name)
+            dir_names = list(map(int, dir_names))
+            latest_dir_name = max(dir_names)
             return os.path.join(self.model_registry, f"{latest_dir_name}")
 
 
@@ -52,8 +52,8 @@ class ModelResolver:
         try:
             latest_dir = self.get_latest_dir_path()
             if latest_dir is None:
-                raise Exception(f"Transform data is not available")
-            return os.path.join(latest_dir, self.transfomer_dir_name, TRANSFORMER_OBJECT_FILE_NAME)
+                raise Exception(f"Transformer data is not available")
+            return os.path.join(latest_dir, self.transformer_dir_name, TRANSFORMER_OBJECT_FILE_NAME)
 
         except Exception as e:
             raise InsuranceException(e, sys)
@@ -72,11 +72,11 @@ class ModelResolver:
 
         try:
             latest_dir = self.get_latest_dir_path()
-            if latest_dir is None:
+            if latest_dir==None:
                 return os.path.join(self.model_registry, f"{0}")
 
             latest_dir_num = int(os.path.basename(self.get_latest_dir_path()))
-            return os.path.join(self.model_registry, f'{latest_dir_num+1}') # added 1 so that it will increase everytime.
+            return os.path.join(self.model_registry, f"{latest_dir_num+1}") # added 1 so that it will increase everytime.
 
         except Exception as e:
             raise InsuranceException(e, sys)
@@ -89,10 +89,10 @@ class ModelResolver:
         except Exception as e:
             raise InsuranceException(e, sys)
         
-    def get_latest_save_transfomer_path(self):
+    def get_latest_save_transformer_path(self):
         try:
             latest_dir = self.get_latest_save_dir_path()
-            return os.path.join(latest_dir, self.transfomer_dir_name, TRANSFORMER_OBJECT_FILE_NAME) # transform.pkl
+            return os.path.join(latest_dir, self.transformer_dir_name, TRANSFORMER_OBJECT_FILE_NAME) # transform.pkl
 
         except Exception as e:
             raise InsuranceException(e, sys)

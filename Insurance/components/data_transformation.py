@@ -44,7 +44,7 @@ class DataTransformation:
         except Exception as e:
             raise InsuranceException(e, sys)
 
-    @property
+    
     def initiate_data_transformation(self, ) -> artifact_entity.DataTransformationArtifact:
         try:
             train_df = pd.read_csv(self.data_ingestion_artifact.train_file_path)

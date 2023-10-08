@@ -56,9 +56,9 @@ class ModelTrainer:
             yhat_test = model.predict(x_test)
             r2_test_score = r2_score(y_true= y_test , y_pred= yhat_test)
 
-            if r2_test_score < self.model_trainer_config.expected_accuracy:
+            if r2_test_score < self.model_trainer_config.expected_score:
                 raise Exception(f"Model is not good as it is not able to give \
-                expected accuracy:{self.model_trainer_config.expected_accuracy}: model actual score: {r2_test_score}")
+                expected accuracy:{self.model_trainer_config.expected_score}: model actual score: {r2_test_score}")
             
             diff = abs(r2_train_score - r2_test_score)
             

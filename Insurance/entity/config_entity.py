@@ -61,7 +61,7 @@ class ModelTrainerConfig:
     def __init__(self,training_pipeline_config:TrainingPipelineConfig):# Define Constructor
           self.model_trainer_dir = os.path.join(training_pipeline_config.artifact_dir, "model_trainer")
           self.model_path = os.path.join(self.model_trainer_dir, "model", MODEL_FILE_NAME)
-          self.expected_accuracy = 0.7
+          self.expected_score = 0.7
           self.overfitting_threshold = 0.3
 
 # Model Evaluation
@@ -73,11 +73,11 @@ class ModelEvaluationConfig:
 # Model Pusher
 
 class ModelPusherConfig:
-    def __init__(self, training_pipeline_config: TrainingPipelineConfig):
-        self.model_pusher_dir = os.path.join(training_pipeline_config.artifact_dir, 'model_pusher_file')
+    def __init__(self,training_pipeline_config:TrainingPipelineConfig):
+        self.model_pusher_dir = os.path.join(training_pipeline_config.artifact_dir, 'model_pusher')
         self.saved_model_dir = os.path.join("saved_models")
         self.pusher_model_dir = os.path.join(self.model_pusher_dir, "saved_models")
         self.pusher_model_path = os.path.join(self.pusher_model_dir, MODEL_FILE_NAME)
-        self.pusher_transfomer_path = os.path.join(self.pusher_model_dir, TRANSFORMER_OBJECT_FILE_NAME)
-        self.pusher_target_encoder_path =   os.path.join(self.pusher_model_dir, TARGET_ENCODER_OBJECT_FILE_NAME)
+        self.pusher_transformer_path = os.path.join(self.pusher_model_dir, TRANSFORMER_OBJECT_FILE_NAME)
+        self.pusher_target_encoder_path = os.path.join(self.pusher_model_dir, TARGET_ENCODER_OBJECT_FILE_NAME)
         
