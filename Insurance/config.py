@@ -1,14 +1,11 @@
 import pymongo
-import pandas as pd
-import numpy as np
-import json
-import os, sys
+import os
 from dataclasses import dataclass
 
 
 @dataclass
 class EnvironmentVariable:
-    mongo_db_url:str = os.getenv("MONGO_DB_URL")
+    mongo_db_url: str = os.getenv("MONGO_DB_URL") # type: ignore
 
 
 env_var = EnvironmentVariable()
