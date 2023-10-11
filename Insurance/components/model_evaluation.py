@@ -86,7 +86,7 @@ class ModelEvaluation:
                 raise Exception("Current model is not better than previous model")
             
             model_eval_artifact = artifact_entity.ModelEvaluationArtifact(is_model_accepted= True,
-                                    improved_accuracy= current_model_score- previous_model_score)
+                                    improved_accuracy= current_model_score-previous_model_score)
             return model_eval_artifact
 
 
